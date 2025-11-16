@@ -69,39 +69,39 @@ userSchema.pre("save", async function(next){
 
 //For comparing Password
 
-userSchema.methods.generateAccessToken=function(){
-    return jwt.sign({
-        _id:this._id,
-        userName:this.userName,
-        email:this.email
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {expiresIn:process.env.ACCESS_TOKEN_EXPIRY})
-}
+// userSchema.methods.generateAccessToken=function(){
+//     return jwt.sign({
+//         _id:this._id,
+//         userName:this.userName,
+//         email:this.email
+//     },
+//     process.env.ACCESS_TOKEN_SECRET,
+//     {expiresIn:process.env.ACCESS_TOKEN_EXPIRY})
+// }
 
-userSchema.methods.generateRefreshToken=function(){
-    return jwt.sign({
-        _id:this._id,
+// userSchema.methods.generateRefreshToken=function(){
+//     return jwt.sign({
+//         _id:this._id,
         
-    },
-    process.env.REFRESH_TOKEN_SECRET,
-    {expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
-}
+//     },
+//     process.env.REFRESH_TOKEN_SECRET,
+//     {expiresIn:process.env.REFRESH_TOKEN_EXPIRY})
+// }
 
-userSchema.methods.generateTemporaryToken=function(){
-    const unhashedToken=crypto.randomBytes(20).toString("hex")  //Generates an unhashed Token
+// userSchema.methods.generateTemporaryToken=function(){
+//     const unhashedToken=crypto.randomBytes(20).toString("hex")  //Generates an unhashed Token
 
-    //As we have to store these in our database, so we use hashed token
-    const hashedToken=crypto.createHash("sha256").update(unhashedToken).digest("hex")
+//     //As we have to store these in our database, so we use hashed token
+//     const hashedToken=crypto.createHash("sha256").update(unhashedToken).digest("hex")
 
-    const tokenExpiry=Date.now()+(20*60*1000)  //20min
+//     const tokenExpiry=Date.now()+(20*60*1000)  //20min
 
-    return {unhashedToken, hashedToken,tokenExpiry}
-}   
+//     return {unhashedToken, hashedToken,tokenExpiry}
+// }   
 
-userSchema.methods.isPasswordCorrect=async function(password) {
-    return await bcrypt.compare(password, this.password)
-};
+// userSchema.methods.isPasswordCorrect=async function(password) {
+//     return await bcrypt.compare(password, this.password)
+// };
 
 const user=mongoose.model("User", userSchema)
 export default User;
